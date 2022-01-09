@@ -8,12 +8,21 @@
       @before-remove="beforeRemove"
       @edit-image="editImage"
       @data-change="dataChange"
+      v-model="imagePass"
     ></vue-upload-multiple-image>
   </div>
 </template>
 
 <script>
 export default {
+  props: ["image"],
+  data() {
+    return {
+      formData: "",
+      index: "",
+      fileList: [],
+    };
+  },
   mounted() {
     let recaptchaScript = document.createElement("script");
     recaptchaScript.setAttribute(
@@ -24,7 +33,13 @@ export default {
   },
   methods: {
     uploadImageSuccess(formData, index, fileList) {
-      console.log("upload success data", formData, index, fileList);
+      console.log("upload success data", formData, index, fileList[0]);
+      (this.formData = formData),
+        (this.index = index),
+        (this.fileList = fileList);
+    },
+    imagePass() {
+      this.$emit("imagePass", this.formData);
     },
   },
 };

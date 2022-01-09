@@ -2,10 +2,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import { authGuard } from "../auth";
 import Home from "@/views/Home.vue";
 import About from "@/views/About.vue";
-import Header from "@/views/Header.vue";
+// import Header from "@/views/Header.vue";
 import Author from "@/views/Author.vue";
 import Recipe from "@/views/Recipe.vue";
 import Cook from "@/views/Cook.vue";
+import Login from "@/components/Login.vue";
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
   {
     name: "login",
     path: "/login",
-    component: Header,
+    component: Login,
     meta: { auth: false },
   },
   {
@@ -41,6 +42,8 @@ const routes = [
     name: "cook",
     path: "/cook",
     component: Cook,
+    meta: { auth: true },
+
   },
   {
     path: "/authfinalize",

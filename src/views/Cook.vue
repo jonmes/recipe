@@ -19,6 +19,7 @@
         <label class="w-2/12">Title</label>
         <input
           type="text"
+          v-model="title"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="title"
         />
@@ -27,7 +28,7 @@
       <hr mt-10 mb-10 />
       <div class="flex w-full items-center mt-5 mb-5">
         <label class="w-2/12">Upload Image</label>
-        <Dropzone class="w-3/12" />
+        <Dropzone class="w-3/12" :image="{}" @imagePass="uploadImg" />
       </div>
 
       <!-- =========================== preparation time =============================================== -->
@@ -36,6 +37,7 @@
         <label class="w-2/12">Preparation Time</label>
         <input
           type="text"
+          v-model="prep_time"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="eg: 10 - 20 min"
         />
@@ -46,6 +48,7 @@
         <label class="w-2/12">Cooking Time</label>
         <input
           type="text"
+          v-model="cook_time"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder="eg: 10 - 20 min"
         />
@@ -53,15 +56,24 @@
       <!-- ========================== ingrediants ============================================ -->
       <hr mt-10 mb-10 />
       <div class="mt-5 mb-5">
-        <div class="mb-5" v-for="(grediant, index) in ingrediant" :key="index">
+        <div class="mb-5" v-for="(food, index) in ingrediant" :key="index">
           <div class="flex w-full">
             <label class="w-2/12">Ingredient</label>
             <input
-              v-model="ingrediant.grediant"
+              v-model="food.grediant"
               :name="`ingrediant[${index}][grediant]`"
               type="text"
               class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Ingredient Name"
+            />
+
+            <label class="pl-12 w-2/12">Amount</label>
+            <input
+              v-model="food.amount"
+              :name="`ingrediant[${index}][title]`"
+              type="text"
+              class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder=""
             />
 
             <button
@@ -86,16 +98,6 @@
               </svg>
             </button>
           </div>
-          <!-- <div class="form-group col-md-6">
-            <label>Title</label>
-            <input
-              v-model="experience.title"
-              :name="`ingrediant[${index}][title]`"
-              type="text"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Title"
-            />
-          </div> -->
         </div>
       </div>
 
@@ -111,14 +113,15 @@
       <!-- ========================== STEPS ============================================ -->
       <hr mt-10 mb-10 />
       <div class="mt-5 mb-5">
-        <div class="mb-5" v-for="(step, index) in steps" :key="index">
+        <div class="mb-5" v-for="(foodStep, index) in steps" :key="index">
           <div class="flex w-full">
             <label class="w-2/12">Step {{ index + 1 }}</label>
             <textarea
-              v-model="steps.step"
+              v-model="foodStep.step"
               :name="`steps[${index}][step]`"
               type="text"
-              rows = "5" cols = "60"
+              rows="5"
+              cols="60"
               class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Description..."
             ></textarea>
@@ -173,6 +176,7 @@
         <label class="w-2/12">Calories</label>
         <input
           type="text"
+          v-model="calories"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder=""
         />
@@ -183,6 +187,7 @@
         <label class="w-2/12">Serving</label>
         <input
           type="text"
+          v-model="servings"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder=""
         />
@@ -193,9 +198,12 @@
         <label class="w-2/12">Category</label>
         <input
           type="text"
+          v-model="category"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder=""
         />
+
+        <!-- Dropdown menu -->
       </div>
       <!-- ============================= DESCRIPTION   ===================================== -->
       <hr mt-10 mb-10 />
@@ -203,6 +211,7 @@
         <label class="w-2/12">Description</label>
         <input
           type="text"
+          v-model="description"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder=""
         />
@@ -210,7 +219,7 @@
 
       <div class="form-group">
         <button
-          @click="submit"
+          @click="addRecipe"
           type="button"
           class="bg-green hover:bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-2 px-4 rounded-full"
         >
@@ -223,15 +232,43 @@
 
 <script>
 import Dropzone from "../components/Dropzone.vue";
+import gql from "graphql-tag";
+
+const recipeQuery = gql`
+  query {
+    recipe {
+      id
+      title
+      image
+      prep_time
+      cook_time
+      created_at
+      calories
+      servings
+      category
+      description
+      user_id
+    }
+  }
+`;
 
 export default {
   name: "cook",
-
   data: () => ({
+    title: "",
+    image: ["{}"],
+    prep_time: "",
+    cook_time: "",
+    calories: "",
+    servings: "",
+    category: "",
+    description: "",
+    user_id: "",
+
     ingrediant: [
       {
-        grediant: "",
-        // title: "Engineer",
+        grediant: "onion",
+        amount: "2 kg",
       },
     ],
     steps: [
@@ -240,12 +277,118 @@ export default {
       },
     ],
   }),
+
+  // ================================ SetUp ============================
+
+  // ========================== Method ===============================
   methods: {
+    uploadImg(formData) {
+      this.image.push(formData);
+      console.log("this is form data", formData);
+    },
+    addRecipe() {
+      this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation (
+              $calories: Int
+              $category: String
+              $cook_time: String
+              $description: String
+              $image: _text
+              $ingrediant: _text
+              $prep_time: String
+              $servings: Int
+              $steps: _text
+              $title: String
+              $user_id: String
+            ) {
+              insert_recipe_one(
+                object: {
+                  title: $title
+                  calories: $calories
+                  servings: $servings
+                  image: $image
+                  category: $category
+                  cook_time: $cook_time
+                  prep_time: $prep_time
+                  description: $description
+                  steps: $steps
+                  ingrediant: $ingrediant
+                  user_id: $user_id
+                }
+              ) {
+                title
+                calories
+                servings
+                image
+                category
+                cook_time
+                prep_time
+                description
+                steps
+                ingrediant
+              }
+            }
+          `,
+          variables: {
+            title: this.title,
+            calories: this.calories,
+            servings: this.servings,
+            image: this.image,
+            category: this.category,
+            cook_time: this.cook_time,
+            prep_time: this.prep_time,
+            description: this.description,
+            steps:
+              "{" +
+              this.steps.map((st) => {
+                return st.step;
+              }) +
+              "}",
+            ingrediant:
+              "{" +
+              this.ingrediant.map((ing) => {
+                return ing.grediant + " " + ing.amount;
+              }) +
+              "}",
+            user_id: "abebeId1",
+          },
+          update: (store, { data: { insert_recipe_one } }) => {
+            const getRecipeQuery = {
+              query: recipeQuery,
+            };
+
+            const existingData = Object.assign(
+              {},
+              store.readQuery(getRecipeQuery)
+            );
+            const newData = [];
+            newData.push(insert_recipe_one);
+            for (let i = 0; i < existingData.recipe.length; i++) {
+              newData.push(existingData.recipe[0]);
+            }
+            existingData.recipe = newData;
+            store.writeQuery({
+              query: recipeQuery,
+              data: existingData,
+            });
+          },
+        })
+        .then((data) => {
+          console.log(data);
+          this.$$router.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     addIngrediant() {
       this.ingrediant.push({
         grediant: "",
-        // title: "",
+        amount: "",
       });
+      console.log(this.ingrediant[0]);
     },
     removeIngrediant(index) {
       this.ingrediant.splice(index, 1);

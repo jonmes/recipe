@@ -39,6 +39,7 @@ const actions = {
 const mutations = {
   [types.SET_USER](state, { user }) {
     state.user = user;
+    // console.log(user)
   },
   [types.SET_AUTH_LOADING_SATUS](state, { status }) {
     state.auth.isLoading = status;

@@ -48,7 +48,7 @@
         v-for="rec in recipe"
         :key="rec.id"
       >
-        <img class="h-60 w-full object-cover rounded-lg" :src="rec.image" />
+        <img class="h-60 w-full object-cover rounded-lg" :src="rec.image[0]" />
         <div class="p-2">
           <h1 class="font-bold text-lg">{{ rec.title }}</h1>
           <p class="text-sm text-gray-600">{{ rec.description }}</p>

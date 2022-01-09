@@ -2,6 +2,7 @@ import store from "../store";
 import createAuth0Client from "@auth0/auth0-spa-js";
 
 let auth0Client;
+let token;
 
 const getAuthClient = async () => {
   if (store.getters["main/authClient"]) {
@@ -12,6 +13,7 @@ const getAuthClient = async () => {
     domain: process.env.VUE_APP_AUTH0_CONFIG_DOMAIN,
     client_id: process.env.VUE_APP_AUTH0_CONFIG_CLIENTID,
     redirect_uri: process.env.VUE_APP_DOMAINURL_REDIRECT,
+    audience: process.env.VUE_APP_AUTH0_AUDIENCE,
   });
 };
 
@@ -19,7 +21,6 @@ export const signIn = async () => {
   store.dispatch("main/setAuthLoadingStatus", true);
   auth0Client = await getAuthClient();
   store.dispatch("main/setAuthClient", auth0Client);
-
   try {
     await auth0Client.loginWithPopup({});
 
@@ -31,6 +32,8 @@ export const signIn = async () => {
       await auth0Client.isAuthenticated()
     );
     store.dispatch("main/setAuthLoadingStatus", false);
+    token = await auth0Client.getTokenSilently();
+    console.log(token);
   } catch (e) {
     console.error(e);
   }
@@ -46,7 +49,7 @@ export const authGuard = async function (to, from, next) {
   auth0Client = await getAuthClient();
   store.dispatch("main/setAuthClient", auth0Client);
 
-  // console.log(await auth0Client.getTokenSilently())
+  console.log(await auth0Client.getTokenSilently());
 
   if (await auth0Client.isAuthenticated()) {
     console.log("User is authenticated");
@@ -63,3 +66,43 @@ export const authGuard = async function (to, from, next) {
     return next("/login");
   }
 };
+
+// ===================== APOLLO ======================
+
+import { ApolloClient, InMemoryCache } from "@apollo/client/core";
+import { setContext } from "@apollo/client/link/context";
+import { createApolloProvider } from "@vue/apollo-option";
+import { createHttpLink } from "@apollo/client";
+
+let apolloClient;
+
+if (store.getters["main/isLoading"] === false) {
+  const httpLink = createHttpLink({
+    uri: "http://localhost:8080/v1/graphql",
+  });
+
+  const authLink = setContext(async () => {
+    if (await auth0Client.isAuthenticated()) {
+      const token = await auth0Client.getTokenSilently();
+      return {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    } else {
+      return {};
+    }
+  });
+
+  const cache = new InMemoryCache();
+
+  apolloClient = new ApolloClient({
+    cache,
+    link: authLink.concat(httpLink),
+  });
+}
+
+export const apolloProvider = createApolloProvider({
+  defaultClient: apolloClient,
+  abebe: signIn().userData,
+});
