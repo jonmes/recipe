@@ -7,6 +7,7 @@ import Author from "@/views/Author.vue";
 import Recipe from "@/views/Recipe.vue";
 import Cook from "@/views/Cook.vue";
 import Login from "@/components/Login.vue";
+import Desc from "@/views/Desc.vue";
 
 const routes = [
   {
@@ -37,13 +38,20 @@ const routes = [
     name: "recipe",
     path: "/recipe",
     component: Recipe,
+    props: true,
   },
   {
     name: "cook",
     path: "/cook",
     component: Cook,
     meta: { auth: true },
-
+  },
+  {
+    name: "desc",
+    path: "/desc",
+    component: Desc,
+    meta: { auth: false },
+    props: true,
   },
   {
     path: "/authfinalize",

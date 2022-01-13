@@ -9,18 +9,18 @@
         alt=""
       />
       <span class="flex items-center px-1 text-xl text-green">
-        <span class="font-medium">Organic food recipes</span>
+        <span class="font-bold">Organic food recipes</span>
         <img class="w-auto h-8" src="/assets/images/vegetable.png" alt="" />
       </span>
       <h1
-        class="pt-4 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tighter leading-tight whitespace-nowrap"
+        class="pt-4 text-4xl font-great sm:text-5xl lg:text-6xl font-bold tracking-tighter leading-tight whitespace-nowrap"
       >
         Healthy Lifestyle <br />
         is your only <br />
         <span class="whitespace-nowrap text-green"> unfair advantage </span>
       </h1>
       <p
-        class="pt-8 sm:text-lg max-w-md font-normal text-gray-600 leading-relaxed"
+        class="pt-8 sm:text-lg max-w-md font-normal text-black leading-relaxed font-girl"
       >
         Cook healthy foods with r<span class="text-green">E</span>cipe daily
         meal posted by world wide expert nutritionist, chef and even Your mom🤶.

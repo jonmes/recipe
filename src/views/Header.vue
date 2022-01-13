@@ -38,7 +38,18 @@
             class="h-0.5 bg-green scale-x-0 group-hover:scale-100 transition-transform origin-left rounded-full duration-300 ease-out"
           />
         </li>
-
+        <router-link
+          class="flex justify-center items-center h-13 px-7 font-medium text-white bg-green rounded-xl hover:shadow-primary transition-shadow duration-300 whitespace-nowrap"
+          :to="{ name: 'recipe' }"
+        >
+          Explore recipes 🔎
+        </router-link>
+        <router-link
+          class="flex justify-center items-center w-full sm:w-auto h-13 px-8 font-medium text-gray-900 border border-gray-900 rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
+          :to="{ name: 'cook' }"
+        >
+          let's cook 👩‍🍳
+        </router-link>
         <li
           class="text-lg md:text-base lg:text-lg font-medium group"
           :class="{ 'text-green': activeMenu === 'Login/SignUp' }"
@@ -59,12 +70,6 @@
           />
         </li>
       </ul>
-      <router-link
-        class="flex justify-center items-center h-13 px-7 font-medium text-white bg-green rounded-xl hover:shadow-primary transition-shadow duration-300 whitespace-nowrap"
-        :to="{ name: 'recipe' }"
-      >
-        Explore recipes 🔎
-      </router-link>
     </div>
     <button
       @click="sidebarOpen = !sidebarOpen"

@@ -6,6 +6,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["DM Sans", "sans-serif"],
+        great: "'Fredericka the Great', cursive",
+        girl: "'Crafty Girls', cursive",
       },
       colors: {
         green: {
@@ -13,6 +15,10 @@ module.exports = {
         },
         gray: {
           600: "#606060",
+        },
+        orange: {
+          DEFAULT: "#ffb347",
+          100: "#ffefd5"
         },
       },
       spacing: {

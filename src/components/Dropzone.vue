@@ -33,14 +33,8 @@ export default {
   },
   methods: {
     uploadImageSuccess(formData, index, fileList) {
-      console.log("upload success data", formData, index, fileList[0]);
-      (this.formData = formData),
-        (this.index = index),
-        (this.fileList = fileList);
-    },
-    imagePass() {
-      this.$emit("imagePass", this.formData);
-    },
+      console.log(formData, index, fileList)
+    }
   },
 };
 </script>

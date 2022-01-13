@@ -1,11 +1,11 @@
 <template>
   <div
-    class="flex flex-wrap-reverse justify-between px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
+    class="flex flex-wrap justify-between px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
   >
     <div class="relative md:m-10 md:2-1/2 w-full">
       <div
         id="search-dish-call"
-        class="font-medium text-2xl md:text-4xl text-center mb-6"
+        class="font-medium font-great text-2xl md:text-4xl text-center mb-6"
       >
         Search Your Favorite Dish
       </div>
@@ -35,10 +35,6 @@
         </div>
       </div>
     </div>
-  </div>
-  <div
-    class="flex flex-wrap-reverse gap-y-24 justify-center py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
-  >
     <div
       class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-32 gap-y-6"
     >
@@ -52,14 +48,29 @@
         <div class="p-2">
           <h1 class="font-bold text-lg">{{ rec.title }}</h1>
           <p class="text-sm text-gray-600">{{ rec.description }}</p>
+          <vue3starRatings
+            class="stars"
+            id="stars"
+            v-model="rating"
+            starSize="25"
+            starColor="#10B981"
+            inactiveColor="#e6ebdf"
+            controlBg="grey"
+            showControl="false"
+            disableClick="true"
+            controlSize="0"
+          />
         </div>
         <div class="m-2">
-          <a
+          <router-link
             role="button"
-            href="#"
+            :to="{
+              name: 'desc',
+              params: { id: rec.id },
+              query: { id: rec.id },
+            }"
             class="text-white bg-green-500 px-3 py-1 rounded-md hover:bg-green-700"
-          >
-            Show Recipe</a
+            >Show Recipe</router-link
           >
         </div>
       </div>
@@ -69,8 +80,10 @@
 
 <script>
 import { recipe } from "../queri/queries";
+import { defineComponent } from "vue";
+import vue3starRatings from "vue3-star-ratings";
 
-export default {
+export default defineComponent({
   name: "Recipe",
   apollo: {
     recipe,
@@ -78,7 +91,11 @@ export default {
   data() {
     return {
       recipe: [],
+      rating:3
     };
   },
-};
+  components: {
+    vue3starRatings,
+  },
+});
 </script>

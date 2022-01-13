@@ -57,3 +57,16 @@ export const createRecipe = {
     }
   `,
 };
+
+export const recipe_detail = {
+  query: gql`
+    query ($recipeId: Int!) {
+      recipe_by_pk(id: $recipeId) {
+        title
+        servings
+        steps
+        ingrediant
+      }
+    }
+  `,
+};

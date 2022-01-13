@@ -28,7 +28,18 @@
       <hr mt-10 mb-10 />
       <div class="flex w-full items-center mt-5 mb-5">
         <label class="w-2/12">Upload Image</label>
-        <Dropzone class="w-3/12" :image="{}" @imagePass="uploadImg" />
+        <div
+          id="my-strictly-unique-vue-upload-multiple-image"
+          style="text-align: center"
+        >
+          <vue-upload-multiple-image
+            @upload-success="uploadImageSuccess"
+            @before-remove="beforeRemove"
+            @edit-image="editImage"
+            @data-change="dataChange"
+            :data-images="image"
+          ></vue-upload-multiple-image>
+        </div>
       </div>
 
       <!-- =========================== preparation time =============================================== -->
@@ -175,7 +186,7 @@
       <div class="flex w-full items-center mt-5 mb-5">
         <label class="w-2/12">Calories</label>
         <input
-          type="text"
+          type="number"
           v-model="calories"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder=""
@@ -186,7 +197,7 @@
       <div class="flex w-full items-center mt-5 mb-5">
         <label class="w-2/12">Serving</label>
         <input
-          type="text"
+          type="number"
           v-model="servings"
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder=""
@@ -231,7 +242,7 @@
 </template>
 
 <script>
-import Dropzone from "../components/Dropzone.vue";
+// import Dropzone from "../components/Dropzone.vue";
 import gql from "graphql-tag";
 
 const recipeQuery = gql`
@@ -256,7 +267,14 @@ export default {
   name: "cook",
   data: () => ({
     title: "",
-    image: ["{}"],
+    image: [
+      {
+        img: "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F616002.jpg&w=596&h=596&c=sc&poi=face&q=85",
+      },
+      {
+        img: "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F631635.jpg&w=596&h=399&c=sc&poi=face&q=85",
+      },
+    ],
     prep_time: "",
     cook_time: "",
     calories: "",
@@ -282,10 +300,6 @@ export default {
 
   // ========================== Method ===============================
   methods: {
-    uploadImg(formData) {
-      this.image.push(formData);
-      console.log("this is form data", formData);
-    },
     addRecipe() {
       this.$apollo
         .mutate({
@@ -335,7 +349,12 @@ export default {
             title: this.title,
             calories: this.calories,
             servings: this.servings,
-            image: this.image,
+            image:
+              "{" +
+              this.image.map((im) => {
+                return im.img;
+              }) +
+              "}",
             category: this.category,
             cook_time: this.cook_time,
             prep_time: this.prep_time,
@@ -358,14 +377,16 @@ export default {
             const getRecipeQuery = {
               query: recipeQuery,
             };
-
+            console.log(getRecipeQuery);
             const existingData = Object.assign(
               {},
               store.readQuery(getRecipeQuery)
             );
+            console.log("existing Data => ", existingData);
             const newData = [];
             newData.push(insert_recipe_one);
-            for (let i = 0; i < existingData.recipe.length; i++) {
+            for (let i = 0; i < 11; i++) {
+              console.log(existingData.recipe[0]);
               newData.push(existingData.recipe[0]);
             }
             existingData.recipe = newData;
@@ -377,7 +398,7 @@ export default {
         })
         .then((data) => {
           console.log(data);
-          this.$$router.push("/");
+          this.$router.push("/recipe");
         })
         .catch((error) => {
           console.log(error);
@@ -409,8 +430,13 @@ export default {
       alert(JSON.stringify(data, null, 2));
     },
   },
-  components: {
-    Dropzone,
+  mounted() {
+    let recaptchaScript = document.createElement("script");
+    recaptchaScript.setAttribute(
+      "src",
+      "https://unpkg.com/vue-upload-multiple-image@1.1.6/dist/vue-upload-multiple-image.js"
+    );
+    document.head.appendChild(recaptchaScript);
   },
 };
 </script>

@@ -41,7 +41,7 @@
               r<span class="text-green">E</span>cipe
             </router-link>
             <p class="opacity-60">
-              Concord Royal Court (3rd floor) Dhanmondi, Dhaka 1209, Bangladesh.
+              Developed for minab IT Solution Plc as a mini project.
             </p>
           </div>
           <div class="w-full sm:w-1/5 flex flex-col space-y-4">
@@ -66,7 +66,7 @@
           </div>
         </div>
         <div class="opacity-60 pt-2">
-          <p>© 2020 Executive Trade International.</p>
+          <p>© 2022 Copyright Recipe.</p>
         </div>
       </div>
     </div>
