@@ -5,9 +5,9 @@ import store from "./store";
 import "./assets/tailwind.css";
 import "./assets/main.css";
 import VeeValidatePlugin from "./includes/validation";
-// import * as apolloProvider from "./apollo.provider"; 
+// import * as apolloProvider from "./apollo.provider";
 import * as apolloProvider from "./auth/index";
-import VueAgile from 'vue-agile';
+import VueAgile from "vue-agile";
 import vue3StarRatings from "vue3-star-ratings";
 
 const app = createApp(App);

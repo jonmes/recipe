@@ -2,7 +2,7 @@
   <div
     class="flex flex-wrap justify-between px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
   >
-    <h1 class="w-full font-black font-great text-6xl">
+    <h1 class="w-full font-black font-great text-6xl mb-5">
       {{ recipe_by_pk.title }}
     </h1>
     <div class="w-full mb-4 flex-wrap-reverse">
@@ -12,16 +12,22 @@
           id="stars"
           v-model="rating"
           starSize="25"
-          starColor="#acff1c"
+          starColor="#71B214"
           inactiveColor="#e6ebdf"
           controlBg="grey"
           showControl="false"
           disableClick="true"
           controlSize="0"
         />
-        <div class="w-6/12 ml-5 inline-block">{{ rating }} Ratings</div>
+        <div class="ml-5 inline-block">{{ rating }} Ratings</div>
+        <button
+          class="ml-10 bg-green sm:w-auto h-8 px-8 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
+        >
+          Rate
+        </button>
       </div>
     </div>
+
     <div class="w-6/12 h-100 mb-10">
       <agile
         class="w-full static p-2 bg-transparent rounded-xl transform transit-all duration-100"
@@ -35,28 +41,15 @@
         </div>
       </agile>
     </div>
+    <!-- =========== Prep time ========================== -->
     <div class="w-6/12 h-100">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        width="32px"
-        height="32px"
-        role="img"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-        class="absolute ml-20 mr-8 border-4 border-green-200 border-dashed rounded-lg"
-      >
-        <g fill="none" fill-rule="evenodd">
-          <path
-            fill="#e7ab46"
-            d="m 11.938,19.758 a 7.817,7.817 0 0 1 -7.815,-7.82 7.818,7.818 0 1 1 15.634,0 7.819,7.819 0 0 1 -7.818,7.82 M 11.939,2 c 5.486,0 9.937,4.447 9.937,9.938 0,5.488 -4.45,9.938 -9.937,9.938 C 6.454,21.876 2,17.426 2,11.938 2,6.448 6.454,2 11.939,2 Z m -0.554,5.624 a 0.554,0.554 0 0 0 1.108,0 V 5.64 a 0.554,0.554 0 0 0 -1.108,0 z m 0,10.688 a 0.555,0.555 0 0 0 1.108,0 v -1.984 a 0.551,0.551 0 0 0 -0.551,-0.55 0.553,0.553 0 0 0 -0.557,0.55 z m 7.181,-6.16 c 0.31,0 0.55,-0.247 0.55,-0.55 a 0.547,0.547 0 0 0 -0.55,-0.554 h -1.984 a 0.556,0.556 0 0 0 -0.557,0.555 c 0,0.302 0.251,0.55 0.557,0.55 h 1.984 z m -11.14,0 a 0.552,0.552 0 1 0 0,-1.104 H 5.442 a 0.555,0.555 0 0 0 -0.556,0.555 c 0,0.302 0.25,0.55 0.556,0.55 h 1.982 z m 0.88,-3.5 c 0.082,0.08 0.188,0.12 0.294,0.12 a 0.41,0.41 0 0 0 0.291,-0.12 0.418,0.418 0 0 0 0,-0.588 L 7.899,7.073 a 0.415,0.415 0 0 0 -0.586,0 0.421,0.421 0 0 0 0,0.587 z m 8.13,8.065 c 0.083,0.08 0.19,0.12 0.294,0.12 a 0.413,0.413 0 0 0 0.29,-0.706 l -0.992,-0.993 a 0.418,0.418 0 0 0 -0.585,0 0.42,0.42 0 0 0 0,0.585 z M 15.966,8.652 16.957,7.66 A 0.41471948,0.41471948 0 1 0 16.372,7.072 l -0.989,0.992 a 0.412,0.412 0 0 0 0,0.588 0.412,0.412 0 0 0 0.582,0 z m -8.131,8.066 0.99,-0.994 A 0.41295097,0.41295097 0 1 0 8.242,15.139 L 7.25,16.132 a 0.426,0.426 0 0 0 0,0.586 c 0.08,0.08 0.186,0.12 0.292,0.12 0.106,0 0.215,-0.04 0.293,-0.12 z m 3.628,-2.737 c 0.916,-1.107 4.562,-5.576 2.932,-4.566 -1.859,1.152 -4.516,3.113 -4.516,3.113 a 1.097,1.097 0 0 0 -0.414,0.855 1.085,1.085 0 0 0 1.788,0.83 l 0.004,0.01 c 0,0 0.02,-0.02 0.052,-0.057 0.058,-0.057 0.11,-0.117 0.154,-0.185 z"
-          ></path>
-        </g>
-      </svg>
       <div
-        class="ml-20 flex justify-center rounded-md border-4 border-dashed border-green-200"
+        class="ml-5 flex justify-center bg-fixed rounded-md border-2 border border-green-200"
+        style="
+          background-image: url(https://i.pinimg.com/736x/40/ca/6e/40ca6ebdab9b144c887e621e98efef53.jpg);
+        "
       >
-        <div class="h-100 font-black font-great pb-20 pt-10">
+        <div class="h-100 font-black blur-none font-great pb-20 pt-10">
           <h2 class="text-3xl mb-5">
             Prep Time:&nbsp;&nbsp;&nbsp; {{ recipe_by_pk.prep_time }}
           </h2>
@@ -77,10 +70,10 @@
     </div>
     <!--  ============== Ingrediants ======================== -->
 
-    <div class="w-6/12">
+    <div class="w-full mb-10">
       <h1 class="text-4xl font-black font-great mb-5">Ingrediants</h1>
       <h2
-        class="text-2xl ml-10 pb-10"
+        class="text-2xl ml-10 pb-3"
         v-for="ing in recipe_by_pk.ingrediant"
         :key="ing"
       >
@@ -88,10 +81,10 @@
       </h2>
     </div>
     <!-- ================== Steps ============== -->
-    <div class="w-6/12">
+    <div class="w-full">
       <h1 class="text-4xl font-black font-great mb-5">Steps</h1>
       <h2
-        class="text-2xl ml-10 pb-10"
+        class="text-2xl text-justify ml-10 pb-5"
         v-for="(step, index) in recipe_by_pk.steps"
         :key="index"
       >
@@ -99,9 +92,61 @@
         {{ step }}
       </h2>
     </div>
-    <div>
-      <h1>Comments</h1>
-    </div>
+    <!-- =========== Comments ================== -->
+    <section class="w-full rounded-b-lg mt-4">
+      <form action="/" accept-charset="UTF-8" method="post">
+        <input type="hidden" />
+        <textarea
+          class="w-full shadow-inner p-4 border-0 mb-4 rounded-lg focus:shadow-outline text-2xl"
+          v-model="comment"
+          placeholder="Comment..."
+          cols="6"
+          rows="4"
+          id="comment_content"
+          spellcheck="false"
+          required
+        ></textarea>
+        <button
+          class="font-bold mb-10 py-2 px-4 w-full bg-green text-lg text-white shadow-md rounded-lg"
+          @click="addComment"
+          type="button"
+        >
+          Comment
+        </button>
+      </form>
+
+      <div id="task-comments" class="pt-4">
+        <!--     comment-->
+        <div
+          class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow-lg mb-4"
+          v-for="comnt in comment"
+          :key="comnt"
+        >
+          <div class="flex flex-row justify-center mr-2">
+            <img
+              alt="avatar"
+              width="48"
+              height="48"
+              class="rounded-full w-10 h-10 mr-4 shadow-lg mb-4"
+              src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
+            />
+            <h3
+              class="text-green-600 font-semibold text-lg text-center md:text-left"
+            >
+              {{ comnt.user_id }}
+            </h3>
+          </div>
+
+          <p
+            style="width: 90%"
+            class="text-gray-600 text-lg text-center md:text-left"
+          >
+            {{ comnt.comment }}
+          </p>
+        </div>
+        <!--  comment end--><!--     comment-->
+      </div>
+    </section>
   </div>
 </template>
 
@@ -110,6 +155,18 @@ import gql from "graphql-tag";
 import { VueAgile } from "vue-agile";
 import { defineComponent } from "vue";
 import vue3starRatings from "vue3-star-ratings";
+
+const commentQuery = gql`
+  query MyQuery($recipeId: Int!) {
+    comment(where: { recipe_id: { _eq: $recipeId } }) {
+      comment
+      user {
+        name
+        id
+      }
+    }
+  }
+`;
 
 export default defineComponent({
   name: "desc",
@@ -130,6 +187,28 @@ export default defineComponent({
             steps
             ingrediant
             created_at
+            user_id
+            user {
+              name
+            }
+          }
+        }
+      `,
+      variables() {
+        return { recipeId: this.recipe_id };
+      },
+    },
+    // ============== Comment ====================
+    comment: {
+      query: gql`
+        query MyQuery($recipeId: Int!) {
+          comment(where: { recipe_id: { _eq: $recipeId } }) {
+            comment
+            user_id
+            user {
+              name
+              id
+            }
           }
         }
       `,
@@ -143,10 +222,73 @@ export default defineComponent({
       recipe_id: "",
       recipe_by_pk: {},
       rating: 4,
+      comment: "",
+      user_id: "",
     };
   },
   created() {
     this.recipe_id = this.$props.id;
+  },
+  methods: {
+    addComment() {
+      this.$apollo
+        .mutate({
+          mutation: gql`
+            mutation ($comment: String!, $recipe_id: Int!, $user_id: String!) {
+              insert_comment_one(
+                object: {
+                  comment: $comment
+                  recipe_id: $recipe_id
+                  user_id: $user_id
+                }
+              ) {
+                recipe_id
+                comment
+                user_id
+              }
+            }
+          `,
+          variables: {
+            comment: this.comment,
+            recipe_id: "45",
+            user_id: "auth0|61e01be7b1392e00699a167b",
+          },
+          update: (store, { data: { insert_comment_one } }) => {
+            const getCommentQuery = {
+              query: commentQuery,
+              variables: {
+                comment: "",
+                user_id: "",
+                recipe_id: "",
+              },
+            };
+            console.log(getCommentQuery);
+            const existingData = Object.assign(
+              {},
+              store.readQuery(getCommentQuery)
+            );
+            console.log("existing Data => ", existingData);
+            const newData = [];
+            newData.push(insert_comment_one);
+            for (let i = 0; i < 11; i++) {
+              console.log(existingData.comment[0]);
+              newData.push(existingData.comment[0]);
+            }
+            existingData.comment = newData;
+            store.writeQuery({
+              query: commentQuery,
+              data: existingData,
+            });
+          },
+        })
+        .then((data) => {
+          console.log(data);
+          this.$router.push("#");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
   components: {
     agile: VueAgile,

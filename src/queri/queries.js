@@ -70,3 +70,40 @@ export const recipe_detail = {
     }
   `,
 };
+
+// ============== Recipe by id =============================
+
+export const recipebyid = {
+  query: gql`
+    query ($recipeId: Int!) {
+      recipe_by_pk(id: $recipeId) {
+        title
+        image
+        prep_time
+        cook_time
+        calories
+        servings
+        category
+        description
+        steps
+        ingrediant
+        created_at
+        user_id
+        user {
+          name
+        }
+      }
+    }
+  `,
+};
+
+// ================== comment ========================
+// export const comment = query MyQuery ($recipeId: Int!){
+//   comment(where: {recipe_id: {_eq: $recipeId}}) {
+//     comment
+//     user{
+//       name
+//       id
+//     }
+//   }
+// }

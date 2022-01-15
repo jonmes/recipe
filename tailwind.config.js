@@ -18,7 +18,7 @@ module.exports = {
         },
         orange: {
           DEFAULT: "#ffb347",
-          100: "#ffefd5"
+          100: "#ffefd5",
         },
       },
       spacing: {
@@ -26,6 +26,11 @@ module.exports = {
       },
       boxShadow: {
         primary: "0px 9.9px 21.6px rgba(136, 202, 41, 0.41)",
+      },
+      backgroundImage: {
+        "prep-time":
+          "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1LjBS5SCVQtkg0g7xBVJ1y0nmeMuZhAqOHg&usqp=CAU')",
+        "footer-texture": "url('/img/footer-texture.png')",
       },
     },
   },
