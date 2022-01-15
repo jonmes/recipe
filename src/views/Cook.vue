@@ -329,7 +329,7 @@ export default {
                   description: $description
                   steps: $steps
                   ingrediant: $ingrediant
-                  user_id: $user_id
+                  user_id: "auth0|61e01be7b1392e00699a167b"
                 }
               ) {
                 title
@@ -385,9 +385,9 @@ export default {
             console.log("existing Data => ", existingData);
             const newData = [];
             newData.push(insert_recipe_one);
-            for (let i = 0; i < 11; i++) {
-              console.log(existingData.recipe[0]);
-              newData.push(existingData.recipe[0]);
+            for (let i = 0; i < existingData.length; i++) {
+              console.log(existingData.recipe[i]);
+              newData.push(existingData.recipe[i]);
             }
             existingData.recipe = newData;
             store.writeQuery({

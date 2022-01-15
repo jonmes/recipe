@@ -115,37 +115,7 @@
         </button>
       </form>
 
-      <div id="task-comments" class="pt-4">
-        <!--     comment-->
-        <div
-          class="bg-white rounded-lg p-3 flex flex-col justify-center items-center md:items-start shadow-lg mb-4"
-          v-for="comnt in comment"
-          :key="comnt"
-        >
-          <div class="flex flex-row justify-center mr-2">
-            <img
-              alt="avatar"
-              width="48"
-              height="48"
-              class="rounded-full w-10 h-10 mr-4 shadow-lg mb-4"
-              src="https://cdn1.iconfinder.com/data/icons/technology-devices-2/100/Profile-512.png"
-            />
-            <h3
-              class="text-green-600 font-semibold text-lg text-center md:text-left"
-            >
-              {{ comnt.user_id }}
-            </h3>
-          </div>
-
-          <p
-            style="width: 90%"
-            class="text-gray-600 text-lg text-center md:text-left"
-          >
-            {{ comnt.comment }}
-          </p>
-        </div>
-        <!--  comment end--><!--     comment-->
-      </div>
+      <comments :recipeId="recipe_id" />
     </section>
   </div>
 </template>
@@ -155,6 +125,7 @@ import gql from "graphql-tag";
 import { VueAgile } from "vue-agile";
 import { defineComponent } from "vue";
 import vue3starRatings from "vue3-star-ratings";
+import Comments from "../components/Comments.vue";
 
 const commentQuery = gql`
   query MyQuery($recipeId: Int!) {
@@ -199,23 +170,6 @@ export default defineComponent({
       },
     },
     // ============== Comment ====================
-    comment: {
-      query: gql`
-        query MyQuery($recipeId: Int!) {
-          comment(where: { recipe_id: { _eq: $recipeId } }) {
-            comment
-            user_id
-            user {
-              name
-              id
-            }
-          }
-        }
-      `,
-      variables() {
-        return { recipeId: this.recipe_id };
-      },
-    },
   },
   data() {
     return {
@@ -250,8 +204,8 @@ export default defineComponent({
           `,
           variables: {
             comment: this.comment,
-            recipe_id: "45",
-            user_id: "auth0|61e01be7b1392e00699a167b",
+            recipe_id: this.recipe_id,
+            user_id: "auth0|61e28339a1e3ac0069eaad4c",
           },
           update: (store, { data: { insert_comment_one } }) => {
             const getCommentQuery = {
@@ -270,8 +224,8 @@ export default defineComponent({
             console.log("existing Data => ", existingData);
             const newData = [];
             newData.push(insert_comment_one);
-            for (let i = 0; i < 11; i++) {
-              console.log(existingData.comment[0]);
+            for (let i = 0; i < existingData.length; i++) {
+              console.log(existingData.comment[i]);
               newData.push(existingData.comment[0]);
             }
             existingData.comment = newData;
@@ -283,7 +237,7 @@ export default defineComponent({
         })
         .then((data) => {
           console.log(data);
-          this.$router.push("#");
+          this.$router.push("/recipe");
         })
         .catch((error) => {
           console.log(error);
@@ -293,6 +247,7 @@ export default defineComponent({
   components: {
     agile: VueAgile,
     vue3starRatings,
+    Comments,
   },
 });
 </script>
