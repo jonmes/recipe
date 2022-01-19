@@ -10,7 +10,7 @@
         <vue3starRatings
           class="stars"
           id="stars"
-          v-model="rating"
+          v-model="recipe_by_pk.rating"
           starSize="25"
           starColor="#71B214"
           inactiveColor="#e6ebdf"
@@ -19,12 +19,16 @@
           disableClick="true"
           controlSize="0"
         />
-        <div class="ml-5 inline-block">{{ rating }} Ratings</div>
+        <div class="ml-5 inline-block">
+          {{ recipe_by_pk.rating.toFixed(1) }} Ratings
+        </div>
         <button
           class="ml-10 bg-green sm:w-auto h-8 px-8 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
+          @click="popupTriggers(ratingVal)"
         >
           Rate
         </button>
+        <popup v-if="buttonTrigger" :togglePopup="popupTriggers" />
       </div>
     </div>
 
@@ -44,19 +48,17 @@
     <!-- =========== Prep time ========================== -->
     <div class="w-6/12 h-100">
       <div
-        class="ml-5 flex justify-center bg-fixed rounded-md border-2 border border-green-200"
-        style="
-          background-image: url(https://i.pinimg.com/736x/40/ca/6e/40ca6ebdab9b144c887e621e98efef53.jpg);
-        "
+        class="ml-5 flex justify-center bg-fixed bg-white rounded-md border-2 border border-green-200"
       >
-        <div class="h-100 font-black blur-none font-great pb-20 pt-10">
+        <div class="h-100 text-black blur-none font-bold pb-20 pt-10">
           <h2 class="text-3xl mb-5">
-            Prep Time:&nbsp;&nbsp;&nbsp; {{ recipe_by_pk.prep_time }}
+            Prep Time:&nbsp;&nbsp;&nbsp;{{ recipe_by_pk.prep_time }}
           </h2>
           <h2 class="text-3xl mb-5">
             Cook Time:&nbsp;&nbsp;&nbsp; {{ recipe_by_pk.cook_time }}
           </h2>
-          <h2 class="text-3xl mb-5">
+
+          <h2 class="text-3xl mb-5 inline-block">
             Calories:&nbsp;&nbsp;&nbsp; {{ recipe_by_pk.calories }} KCal
           </h2>
           <h2 class="text-3xl mb-5">
@@ -126,6 +128,9 @@ import { VueAgile } from "vue-agile";
 import { defineComponent } from "vue";
 import vue3starRatings from "vue3-star-ratings";
 import Comments from "../components/Comments.vue";
+import Popup from "../components/PopupRating.vue";
+import { useStore } from "vuex";
+import { computed } from "vue";
 
 const commentQuery = gql`
   query MyQuery($recipeId: Int!) {
@@ -159,6 +164,7 @@ export default defineComponent({
             ingrediant
             created_at
             user_id
+            rating
             user {
               name
             }
@@ -171,13 +177,20 @@ export default defineComponent({
     },
     // ============== Comment ====================
   },
+  setup() {
+    const store = useStore();
+    const userData = computed(() => store.getters["main/user"]);
+    return {
+      userData,
+    };
+  },
   data() {
     return {
       recipe_id: "",
       recipe_by_pk: {},
-      rating: 4,
       comment: "",
       user_id: "",
+      buttonTrigger: false,
     };
   },
   created() {
@@ -205,9 +218,9 @@ export default defineComponent({
           variables: {
             comment: this.comment,
             recipe_id: this.recipe_id,
-            user_id: "auth0|61e28339a1e3ac0069eaad4c",
+            user_id: this.userData.sub,
           },
-          update: (store, { data: { insert_comment_one } }) => {
+          update: (cache, { data: { insert_comment_one } }) => {
             const getCommentQuery = {
               query: commentQuery,
               variables: {
@@ -219,7 +232,7 @@ export default defineComponent({
             console.log(getCommentQuery);
             const existingData = Object.assign(
               {},
-              store.readQuery(getCommentQuery)
+              cache.readQuery(getCommentQuery)
             );
             console.log("existing Data => ", existingData);
             const newData = [];
@@ -229,30 +242,35 @@ export default defineComponent({
               newData.push(existingData.comment[0]);
             }
             existingData.comment = newData;
-            store.writeQuery({
+            cache.writeQuery({
               query: commentQuery,
               data: existingData,
             });
           },
         })
         .then((data) => {
-          console.log(data);
+          console.log(data.insert_comment_one.comment);
           this.$router.push("/recipe");
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    popupTriggers() {
+      this.buttonTrigger = !this.buttonTrigger;
+      return this.buttonTrigger;
+    },
   },
   components: {
     agile: VueAgile,
     vue3starRatings,
     Comments,
+    Popup,
   },
 });
 </script>
 
-<style>
+<style scoped>
 .vue3-star-ratings__wrapper[data-v-3d93c878] {
   padding: 0;
 }

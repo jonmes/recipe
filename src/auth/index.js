@@ -3,6 +3,7 @@ import createAuth0Client from "@auth0/auth0-spa-js";
 
 let auth0Client;
 let token;
+let userInfo;
 
 const getAuthClient = async () => {
   if (store.getters["main/authClient"]) {
@@ -33,7 +34,9 @@ export const signIn = async () => {
     );
     store.dispatch("main/setAuthLoadingStatus", false);
     token = await auth0Client.getTokenSilently();
-    console.log(token);
+    userInfo = await auth0Client.getUser();  
+    console.log(userInfo.sub);
+    console.log(token, "this is token");
   } catch (e) {
     console.error(e);
   }

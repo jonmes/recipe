@@ -25,15 +25,12 @@ export default {
     const authenticated = computed(() => store.getters["main/isAuthenticated"]);
 
     async function login() {
-      // console.log(authenticated.value);
 
       await signIn();
-
-      // console.log(authenticated.value);
       if (authenticated.value) {
         router.push({ name: "cook" });
         this.authval = "authpass";
-        console.log(this.authval);
+        console.log(this.authval, "say true or false");
       } else {
         router.push({ name: "home" });
       }

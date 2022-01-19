@@ -213,6 +213,7 @@
           class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           placeholder=""
         />
+        <input type="text" v-model="userData" class="hidden" />
 
         <!-- Dropdown menu -->
       </div>
@@ -244,6 +245,8 @@
 <script>
 // import Dropzone from "../components/Dropzone.vue";
 import gql from "graphql-tag";
+import { useStore } from "vuex";
+import { computed } from "vue";
 
 const recipeQuery = gql`
   query {
@@ -264,6 +267,13 @@ const recipeQuery = gql`
 `;
 
 export default {
+  setup() {
+    const store = useStore();
+    const userData = computed(() => store.getters["main/user"]);
+    return {
+      userData
+    }
+  },
   name: "cook",
   data: () => ({
     title: "",
@@ -329,7 +339,7 @@ export default {
                   description: $description
                   steps: $steps
                   ingrediant: $ingrediant
-                  user_id: "auth0|61e01be7b1392e00699a167b"
+                  user_id: $user_id
                 }
               ) {
                 title
@@ -371,7 +381,7 @@ export default {
                 return ing.grediant + " " + ing.amount;
               }) +
               "}",
-            user_id: "abebeId1",
+            user_id: this.userData.sub,
           },
           update: (store, { data: { insert_recipe_one } }) => {
             const getRecipeQuery = {

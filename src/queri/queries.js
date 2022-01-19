@@ -27,6 +27,7 @@ export const recipe = {
         category
         description
         user_id
+        rating
       }
     }
   `,

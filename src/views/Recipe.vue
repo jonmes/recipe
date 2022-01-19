@@ -51,7 +51,7 @@
           <vue3starRatings
             class="stars"
             id="stars"
-            v-model="rating"
+            v-model="rec.rating"
             starSize="25"
             starColor="#10B981"
             inactiveColor="#e6ebdf"
@@ -91,7 +91,6 @@ export default defineComponent({
   data() {
     return {
       recipe: [],
-      rating:3
     };
   },
   components: {
