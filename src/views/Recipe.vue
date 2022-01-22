@@ -5,11 +5,10 @@
     <div
       class="flex flex-wrap justify-between px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
     >
-      <h1 class="w-full font-great text-4xl text-center">
+      <h1 class="w-full font-great font-black text-4xl text-center">
         Search Your Favorite Recipe
       </h1>
-      <Search class="w-full mb-20" />
-      <Filter class="absolute lg:left-0 xl:left-20 top-80" />
+      <Filter class="w-full mb-20 items-end" />
 
       <!-- ============== CARD ================== -->
 
@@ -24,7 +23,7 @@
         </div>
         <div class="py-4 px-4 bg-white">
           <h3 class="text-2xl font-great font-black text-gray-600">
-            {{ rec.title }}<br />&quot; {{ rec.category }}
+            {{ rec.title }}<br />by &quot;{{ rec.user_id }}
           </h3>
           <p class="mt-4 text-lg font-thin">{{ rec.description }}</p>
           <vue3starRatings
@@ -112,7 +111,6 @@
 import { recipe } from "../queri/queries";
 import { defineComponent } from "vue";
 import vue3starRatings from "vue3-star-ratings";
-import Search from "@/components/Search.vue";
 import Filter from "@/components/Filter.vue";
 
 export default defineComponent({
@@ -127,7 +125,6 @@ export default defineComponent({
   },
   components: {
     vue3starRatings,
-    Search,
     Filter,
   },
 });
