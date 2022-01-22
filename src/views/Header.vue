@@ -61,7 +61,7 @@
           </router-link> -->
           <button v-if="!authenticated" @click="login">Login</button>
           <button v-if="authenticated" @click="logout">
-            &nbsp;&nbsp;&nbsp;{{ userData.sub }} &nbsp;&nbsp;&nbsp;Logout
+            &nbsp;&nbsp;&nbsp;{{ userData.nickname }} &nbsp;&nbsp;&nbsp;Logout
           </button>
 
           <!-- <div v-if="!authLoading">
@@ -124,3 +124,14 @@ export default {
   },
 };
 </script>
+
+<style>
+a:hover, /* OPTIONAL*/
+a:visited,
+a:focus {
+  text-decoration: none !important;
+}
+a:hover{
+  color: green;
+}
+</style>

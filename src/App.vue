@@ -12,9 +12,9 @@
       <span class="hidden lg:inline-block xl:hidden">LG</span>
       <span class="hidden xl:inline-block">XL</span>
     </div>
-    <HeaderNav />
+    <HeaderNav class="no-underline hover:no-underline"/>
     <router-view></router-view>
-    <Footer/>
+    <Footer />
   </div>
 </template>
 
@@ -37,3 +37,9 @@ export default {
   },
 };
 </script>
+
+<style>
+a {
+  text-decoration: none;
+}
+</style>

@@ -28,7 +28,11 @@
         >
           Rate
         </button>
-        <popup v-if="buttonTrigger" :togglePopup="popupTriggers" />
+        <popup
+          v-if="buttonTrigger"
+          :recipeId="recipe_id"
+          :togglePopup="popupTriggers"
+        />
       </div>
     </div>
 
